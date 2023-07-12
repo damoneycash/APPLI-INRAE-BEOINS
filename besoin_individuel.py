@@ -13,7 +13,6 @@ def main():
              unsafe_allow_html=True)
     st.header(":blue[INRAE Besoins individuels]")
     uploaded_file = st.file_uploader("Téléversez un fichier Excel", type=["xlsx", "xls"])
-    uploaded_file = 'excel.xlsx'
     if uploaded_file is not None:
         try:
             # Lecture du fichier Excel avec Pandas
