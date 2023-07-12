@@ -52,7 +52,7 @@ def main():
                 prenom = row[4]
                 if nom and prenom:
                     nom_prenom = f"{nom} {prenom}"
-                    data_row = list(row)
+                    data_row = list(row[:14])
                     data_row[3] = nom_prenom
                     del data_row[4]
                     data.append(data_row)
