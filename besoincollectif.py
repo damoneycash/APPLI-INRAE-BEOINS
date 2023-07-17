@@ -2,13 +2,14 @@ from openpyxl import load_workbook
 from numpy import unique
 import streamlit as st
 import pandas as pd
+
 def main():
     st.write('<img class="Logo-etat" src="https://www.inrae.fr/themes/custom/inrae_socle/public/images/etat_logo.svg" alt="République française" width="138" height="146">',
              '<img class="Logo-site" src="https://www.inrae.fr/themes/custom/inrae_socle/logo.svg" alt="INRAE">',
              unsafe_allow_html=True)
     st.header(":blue[INRAE Besoins collectifs]")
     uploaded_file = st.file_uploader("Téléversez un fichier Excel", type=["xlsx", "xls"])
-
+    uploaded_file = 'excel.xlsx'
     if uploaded_file is not None:
         try:
             # Lecture du fichier Excel avec Pandas
@@ -27,10 +28,12 @@ def main():
                 pole_value = row[-2]
                 if pole_value:
                     poles = pole_value.split(" ")
+                    poles = [p for p in poles if p not in ["-", "/", "de", "des", "et", "la"]]
                     poles_sheet3.extend(poles)
 
             poles_sheet3 = unique([x for x in poles_sheet3 if x])
-
+            
+            print(poles_sheet3)
             # Création du menu déroulant pour choisir un pôle (feuille 3)
             selected_pole_sheet3 = st.selectbox("Choisissez un pôle", poles_sheet3)
 
@@ -46,9 +49,11 @@ def main():
             # Affichage du DataFrame (feuille 3)
             st.dataframe(df_sheet3, use_container_width=True, height=800, hide_index=True)
             st.column_config.TextColumn(width="small")
-        
+
         except UnboundLocalError:
             # Afficher "Hello World" en cas d'erreur
             st.write("Hello World")
 
     return
+
+main()
